@@ -10,7 +10,7 @@ self.addEventListener("push", function (e) {
   try { d = e.data ? e.data.json() : {}; } catch (err) { d = { corpo: e.data ? e.data.text() : "" }; }
   var opts = {
     body: d.corpo || "", tag: d.chave || undefined, icon: "icon-192.png", badge: "icon-192.png",
-    data: { pet: d.pet || null, aba: d.aba || null, med: d.med || null }
+    data: { pet: d.pet || null, aba: d.aba || null, med: d.med || null, dica: d.dica || null }
   };
   if (d.med) { opts.actions = [{ action: "dei", title: "Dei a dose" }]; opts.requireInteraction = true; }
   e.waitUntil(self.registration.showNotification(d.titulo || "EsserePet", opts));
@@ -22,12 +22,13 @@ self.addEventListener("notificationclick", function (e) {
   var dei = e.action === "dei" && d.med;
   var url = new URL(self.registration.scope);
   if (dei) { url.searchParams.set("dei", d.pet); url.searchParams.set("med", d.med); }
+  else if (d.dica) url.searchParams.set("dica", d.dica);
   else if (d.pet) { url.searchParams.set("pet", d.pet); if (d.aba) url.searchParams.set("aba", d.aba); }
   e.waitUntil(self.clients.matchAll({ type: "window", includeUncontrolled: true }).then(function (lista) {
     for (var i = 0; i < lista.length; i++) {
       var c = lista[i];
       if (dei) { c.postMessage({ tipo: "esserepet:deiDose", pet: d.pet, med: d.med }); return; }
-      if ("focus" in c) { c.postMessage({ tipo: "esserepet:abrir", pet: d.pet, aba: d.aba }); return c.focus(); }
+      if ("focus" in c) { c.postMessage({ tipo: "esserepet:abrir", pet: d.pet, aba: d.aba, dica: d.dica }); return c.focus(); }
     }
     return self.clients.openWindow(url.href);
   }));
