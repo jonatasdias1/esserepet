@@ -1,0 +1,17 @@
+{
+  "id": "portal-veterinario.html",
+  "name": "Portal Veterinário · EsserePet",
+  "short_name": "Portal Vet",
+  "description": "Portal do veterinário parceiro do EsserePet: publique dicas para os tutores.",
+  "lang": "pt-BR",
+  "start_url": "portal-veterinario.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5ead8",
+  "theme_color": "#f5ead8",
+  "icons": [
+    { "src": "icon-vet-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-vet-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-vet-180.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
